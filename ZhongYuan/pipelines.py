@@ -19,13 +19,12 @@ class ZFJSONPipeline(object):
         self.file = codecs.open('ZhongYuanZufang.json','a+',encoding='utf-8')
 
     def process_item(self, item, spider):
-        house_dict = {"标题": item['title'], "价格": item['price'],"基本情况": item['house_msg'],
+        house_dict = {"城市":item["city"], "标题": item['title'], "价格": item['price'],"基本情况": item['house_msg'],
                  "装修情况": item['decorated_msg'], "地址": item['address'], "其它": item['tag']}
 
-        line = "\n\n"
+        line = "\n"
         house_json = json.dumps(house_dict, ensure_ascii=False)
         self.file.write(house_json)
-        print('==================json pineline =================' + house_json)
         self.file.write(line)
         return item
 
@@ -59,8 +58,8 @@ class MongoPipeline(object):
 
     def process_item(self, item, spider):
         try:
-            house_dict = {'标题': item['title'], '价格': item['price'], '基本情况': item['house_msg'],
-                          '装修情况': item['decorated_msg'], "地址": item['address'], "其它": item['tag']}
+            house_dict = {"城市": item["city"], "标题": item['title'], "价格": item['price'], "基本情况": item['house_msg'],
+                          "装修情况": item['decorated_msg'], "地址": item['address'], "其它": item['tag']}
             print("xxxxxxxxxxrurururururururururxxxxxxxxxxxxx")
             self.db['ZhongYuan'].save(house_dict)
         except Exception as e:
